@@ -20,14 +20,11 @@ class CalendarActivity : AppCompatActivity() {
         setContentView(R.layout.activity_calendar)
 
         AndroidThreeTen.init(this);
-        val currentDate = org.threeten.bp.LocalDateTime.now()
 
-        val genCal = GenerateCalendar()
+        var myDataSet : MutableList<MyDate> = mutableListOf()
+        myDataSet = GenerateCalendar().generateCalendar(myDataSet)
 
-        var myDataSet : MutableList<MyDate> = mutableListOf(MyDate(2020, 9, 1, false),MyDate(2020, 9, 2, false),MyDate(2020, 9, 3, false))
-        myDataSet = genCal.generateCalendar(myDataSet)
         var myCalendarList : List<MyDate> = myDataSet
-
 
         viewManager = GridLayoutManager(this, 7)
         viewAdapter = CalendarAdapter(myCalendarList)

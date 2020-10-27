@@ -41,6 +41,10 @@ class CalendarAdapter(private val myDataset: List<MyDate>) :
         val date = holder.myDate
         val time = holder.myTime
         val calories = holder.myCalories
+
+        val myData = myDataset[position]
+
+        date.text = (myData.day.toString())
     }
 
     // Return the size of your dataset (invoked by the layout manager)
