@@ -43,7 +43,6 @@ class GenerateCalendar {
             count++
         }
 
-
         for (i in 1..currentDate.month.length(yr.isLeap)){
             calendar.add(
                 MyDate(
@@ -66,7 +65,6 @@ class GenerateCalendar {
                 )
             )
         }
-
 
         return calendar
     }
