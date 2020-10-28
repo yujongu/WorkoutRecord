@@ -10,12 +10,12 @@ class GenerateCalendar {
 
     val TAG = "generateCalendarTag"
 
-    fun generateCalendar(calendar: MutableList<MyDate>) : MutableList<MyDate> {
-        val currentDate = org.threeten.bp.LocalDateTime.now()
-        val yr = org.threeten.bp.Year.now()
-        val startMonth = org.threeten.bp.LocalDateTime.of(currentDate.year, currentDate.monthValue, 1, 0, 0)
-        val prevMonth = currentDate.minusMonths(1)
-        val nextMonth = currentDate.plusMonths(1)
+    fun generateCalendar(calendar: MutableList<MyDate>, year: Int, month: Int) : MutableList<MyDate> {
+        calendar.clear()
+        val yr = org.threeten.bp.Year.of(year)
+        val startMonth = org.threeten.bp.LocalDateTime.of(year, month, 1, 0, 0)
+        val prevMonth = startMonth.minusMonths(1)
+        val nextMonth = startMonth.plusMonths(1)
 
         var count = 0
 
@@ -43,11 +43,11 @@ class GenerateCalendar {
             count++
         }
 
-        for (i in 1..currentDate.month.length(yr.isLeap)){
+        for (i in 1..startMonth.month.length(yr.isLeap)){
             calendar.add(
                 MyDate(
-                    currentDate.year,
-                    currentDate.monthValue,
+                    startMonth.year,
+                    startMonth.monthValue,
                     i,
                     false
                 )
@@ -64,6 +64,10 @@ class GenerateCalendar {
                     false
                 )
             )
+        }
+
+        for (i in 0..41){
+            Log.i(TAG, "${calendar[i].month}, ${calendar[i].day}")
         }
 
         return calendar

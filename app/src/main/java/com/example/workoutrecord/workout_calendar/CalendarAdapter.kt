@@ -1,6 +1,8 @@
 package com.example.workoutrecord.workout_calendar
 
+import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +14,7 @@ class CalendarAdapter(private val myDataset: List<MyDate>) :
     RecyclerView.Adapter<CalendarAdapter.MyViewHolder>() {
 
     val LONDONGREY = "#808e9b"
-    val today = org.threeten.bp.LocalDateTime.now()
+    val LYNXWHITE = "#f5f6fa"
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
@@ -39,6 +41,8 @@ class CalendarAdapter(private val myDataset: List<MyDate>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        Log.i("adapterTag", "CurrMonth: ${myDataset[10].month}")
+        Log.i("adapterTag", "currPosition: ${myDataset[position].month}, ${myDataset[position].day}")
         val date = holder.myDate
 
         val myData = myDataset[position]
@@ -46,12 +50,12 @@ class CalendarAdapter(private val myDataset: List<MyDate>) :
 
 
         date.text = "${myData.day}"
-        if (myData.month != today.monthValue){
+        Log.i("adapterTag", "myData.month: ${myData.month}")
+        if (myData.month != myDataset[10].month){
             date.setTextColor(Color.parseColor(LONDONGREY))
+        } else {
+            date.setTextColor(Color.parseColor(LYNXWHITE))
         }
-
-
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
