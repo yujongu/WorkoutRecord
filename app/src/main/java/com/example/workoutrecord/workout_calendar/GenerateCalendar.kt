@@ -1,19 +1,15 @@
 package com.example.workoutrecord.workout_calendar
 
-import android.util.Log
-import com.jakewharton.threetenabp.AndroidThreeTen
-import java.time.LocalDateTime
-import java.time.Year
-import java.util.*
-
 class GenerateCalendar {
 
     val TAG = "generateCalendarTag"
 
     fun generateCalendar(calendar: MutableList<MyDate>, year: Int, month: Int) : MutableList<MyDate> {
         calendar.clear()
+        val today = org.threeten.bp.LocalDate.now()
+
         val yr = org.threeten.bp.Year.of(year)
-        val startMonth = org.threeten.bp.LocalDateTime.of(year, month, 1, 0, 0)
+        val startMonth = org.threeten.bp.LocalDate.of(year, month, 1)
         val prevMonth = startMonth.minusMonths(1)
         val nextMonth = startMonth.plusMonths(1)
 
@@ -49,10 +45,15 @@ class GenerateCalendar {
                     startMonth.year,
                     startMonth.monthValue,
                     i,
-                    false
+                    false,
                 )
+
             )
+            if ((calendar[count].year == today.year) && (calendar[count].month == today.monthValue) && (calendar[count].day == today.dayOfMonth)) {
+                calendar[count].clicked = 1
+            }
             count++
+
         }
 
         for (i in count until 42){
@@ -64,10 +65,6 @@ class GenerateCalendar {
                     false
                 )
             )
-        }
-
-        for (i in 0..41){
-            Log.i(TAG, "${calendar[i].month}, ${calendar[i].day}")
         }
 
         return calendar

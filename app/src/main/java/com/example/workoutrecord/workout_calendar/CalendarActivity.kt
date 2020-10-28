@@ -2,15 +2,19 @@ package com.example.workoutrecord.workout_calendar
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workoutrecord.R
+import com.example.workoutrecord.components.OnSwipeTouchListener
 import com.jakewharton.threetenabp.AndroidThreeTen
 import java.lang.IllegalStateException
 import java.time.LocalDateTime
@@ -33,9 +37,6 @@ class CalendarActivity : AppCompatActivity() {
 
         initInstances()
         eventListeners()
-
-
-
     }
 
     fun initInstances(){
@@ -49,37 +50,57 @@ class CalendarActivity : AppCompatActivity() {
     fun eventListeners(){
         prevMonthButton.setOnClickListener(onClickListener)
         nextMonthButton.setOnClickListener(onClickListener)
+
+
+        recyclerView.setOnTouchListener(object : OnSwipeTouchListener(){
+            override fun onSwipeLeft() {
+                gotoNextMonth()
+            }
+            override fun onSwipeRight() {
+                gotoPrevMonth()
+            }
+        })
+
     }
+
+
 
     val onClickListener : View.OnClickListener = View.OnClickListener {
         when (it.id){
             R.id.btnPrevMonth -> {
-                if (myDataSet[10].month - 1 == 0){
-                    myDataSet = GenerateCalendar().generateCalendar(myDataSet, myDataSet[10].year - 1, 12)
-                } else {
-                    myDataSet = GenerateCalendar().generateCalendar(myDataSet, myDataSet[10].year, myDataSet[10].month - 1)
-                }
-                myCalendarList = myDataSet
-                currYrMonthTv.text = "${myDataSet[10].year}.${myDataSet[10].month}"
-
-                viewAdapter.notifyDataSetChanged()
+                gotoPrevMonth()
             }
             R.id.btnNextMonth -> {
-                if (myDataSet[10].month + 1 == 13){
-                    myDataSet = GenerateCalendar().generateCalendar(myDataSet, myDataSet[10].year + 1, 1)
-                } else {
-                    myDataSet = GenerateCalendar().generateCalendar(myDataSet, myDataSet[10].year, myDataSet[10].month + 1)
-                }
-                myCalendarList = myDataSet
-                currYrMonthTv.text = "${myDataSet[10].year}.${myDataSet[10].month}"
-
-                viewAdapter.notifyDataSetChanged()
+                gotoNextMonth()
             }
             else -> throw IllegalStateException("Not sure what you clicked...")
 
         }
     }
 
+    fun gotoPrevMonth(){
+        if (myDataSet[10].month - 1 == 0){
+            myDataSet = GenerateCalendar().generateCalendar(myDataSet, myDataSet[10].year - 1, 12)
+        } else {
+            myDataSet = GenerateCalendar().generateCalendar(myDataSet, myDataSet[10].year, myDataSet[10].month - 1)
+        }
+        myCalendarList = myDataSet
+        currYrMonthTv.text = "${myDataSet[10].year}.${myDataSet[10].month}"
+
+        viewAdapter.notifyDataSetChanged()
+    }
+
+    fun gotoNextMonth(){
+        if (myDataSet[10].month + 1 == 13){
+            myDataSet = GenerateCalendar().generateCalendar(myDataSet, myDataSet[10].year + 1, 1)
+        } else {
+            myDataSet = GenerateCalendar().generateCalendar(myDataSet, myDataSet[10].year, myDataSet[10].month + 1)
+        }
+        myCalendarList = myDataSet
+        currYrMonthTv.text = "${myDataSet[10].year}.${myDataSet[10].month}"
+
+        viewAdapter.notifyDataSetChanged()
+    }
 
     fun generateRecyclerView(){
         val today = org.threeten.bp.LocalDateTime.now()
