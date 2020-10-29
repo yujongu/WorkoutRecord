@@ -1,5 +1,6 @@
 package com.example.workoutrecord.workout_calendar
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -47,6 +48,9 @@ class CalendarActivity : AppCompatActivity() {
         generateRecyclerView()
     }
 
+
+
+    @SuppressLint("ClickableViewAccessibility")
     fun eventListeners(){
         prevMonthButton.setOnClickListener(onClickListener)
         nextMonthButton.setOnClickListener(onClickListener)
@@ -59,6 +63,7 @@ class CalendarActivity : AppCompatActivity() {
             override fun onSwipeRight() {
                 gotoPrevMonth()
             }
+
         })
 
     }

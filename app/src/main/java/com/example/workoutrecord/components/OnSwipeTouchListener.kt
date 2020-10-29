@@ -1,5 +1,6 @@
 package com.example.workoutrecord.components
 
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -27,7 +28,6 @@ open class OnSwipeTouchListener : View.OnTouchListener {
         }
 
 
-
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             val result = false
             try {
@@ -35,9 +35,12 @@ open class OnSwipeTouchListener : View.OnTouchListener {
                 val diffX = e2.x - e1.x
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        Log.i("SWIPE LISTENER", "Swiped")
                         if (diffX > 0) {
+                            Log.i("SWIPE LISTENER", "right")
                             onSwipeRight()
                         } else {
+                            Log.i("SWIPE LISTENER", "left")
                             onSwipeLeft()
                         }
                     }
@@ -50,7 +53,10 @@ open class OnSwipeTouchListener : View.OnTouchListener {
 
             return result
         }
+
     }
+
+
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         return gestureDetector.onTouchEvent(event)

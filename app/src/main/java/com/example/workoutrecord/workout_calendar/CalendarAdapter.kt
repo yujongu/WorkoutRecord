@@ -1,8 +1,7 @@
 package com.example.workoutrecord.workout_calendar
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -45,6 +44,7 @@ class CalendarAdapter(private val myDataset: List<MyDate>) :
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
@@ -53,23 +53,31 @@ class CalendarAdapter(private val myDataset: List<MyDate>) :
         val date = holder.myDate
         val con = holder.container
 
+
 //        con.setOnClickListener(View.OnClickListener {
-//            for (i in 0 until myDataset.size){
-//                myDataset[i].clicked = 0
+//            for (element in myDataset){
+//                element.clicked = 0
 //            }
 //            myData.clicked = 1
 //            notifyDataSetChanged()
 //        })
-//        con.setOnTouchListener(object : OnSwipeTouchListener(){
-//            override fun onTouch() {
-//                for (i in 0 until myDataset.size){
-//                    myDataset[i].clicked = 0
-//                }
-//                myData.clicked = 1
-//                notifyDataSetChanged()
-//            }
-//
-//        })
+
+        con.setOnTouchListener(object : OnSwipeTouchListener() {
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+                when(event.action){
+                    MotionEvent.ACTION_DOWN -> {
+                        for (element in myDataset){
+                            element.clicked = 0
+                        }
+                        myData.clicked = 1
+                        notifyDataSetChanged()
+                    }
+                }
+
+                return v.onTouchEvent(event)
+            }
+        })
+
 
         date.text = "${myData.day}"
         if (myData.month != myDataset[10].month){
