@@ -35,12 +35,9 @@ open class OnSwipeTouchListener : View.OnTouchListener {
                 val diffX = e2.x - e1.x
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        Log.i("SWIPE LISTENER", "Swiped")
                         if (diffX > 0) {
-                            Log.i("SWIPE LISTENER", "right")
                             onSwipeRight()
                         } else {
-                            Log.i("SWIPE LISTENER", "left")
                             onSwipeLeft()
                         }
                     }

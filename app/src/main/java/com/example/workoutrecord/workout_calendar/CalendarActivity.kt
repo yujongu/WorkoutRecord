@@ -18,6 +18,7 @@ import com.example.workoutrecord.R
 import com.example.workoutrecord.components.OnSwipeTouchListener
 import com.jakewharton.threetenabp.AndroidThreeTen
 import java.lang.IllegalStateException
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class CalendarActivity : AppCompatActivity() {
@@ -31,6 +32,8 @@ class CalendarActivity : AppCompatActivity() {
     private lateinit var prevMonthButton: ImageButton
     private lateinit var nextMonthButton: ImageButton
     private lateinit var currYrMonthTv: TextView
+    private lateinit var todayTv: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +45,12 @@ class CalendarActivity : AppCompatActivity() {
 
     fun initInstances(){
         AndroidThreeTen.init(this);
+
         prevMonthButton = findViewById<ImageButton>(R.id.btnPrevMonth)
         nextMonthButton = findViewById<ImageButton>(R.id.btnNextMonth)
         currYrMonthTv = findViewById<TextView>(R.id.tvCurrYrMonth)
+        todayTv = findViewById<TextView>(R.id.tvGetToday)
+
         generateRecyclerView()
     }
 
@@ -54,7 +60,7 @@ class CalendarActivity : AppCompatActivity() {
     fun eventListeners(){
         prevMonthButton.setOnClickListener(onClickListener)
         nextMonthButton.setOnClickListener(onClickListener)
-
+        todayTv.setOnClickListener(onClickListener)
 
         recyclerView.setOnTouchListener(object : OnSwipeTouchListener(){
             override fun onSwipeLeft() {
@@ -63,9 +69,7 @@ class CalendarActivity : AppCompatActivity() {
             override fun onSwipeRight() {
                 gotoPrevMonth()
             }
-
         })
-
     }
 
 
@@ -77,6 +81,9 @@ class CalendarActivity : AppCompatActivity() {
             }
             R.id.btnNextMonth -> {
                 gotoNextMonth()
+            }
+            R.id.tvGetToday -> {
+                gotoToday()
             }
             else -> throw IllegalStateException("Not sure what you clicked...")
 
@@ -107,6 +114,15 @@ class CalendarActivity : AppCompatActivity() {
         viewAdapter.notifyDataSetChanged()
     }
 
+    fun gotoToday(){
+        val today = org.threeten.bp.LocalDate.now()
+        myDataSet = GenerateCalendar().generateCalendar(myDataSet, today.year, today.monthValue)
+
+        myCalendarList = myDataSet
+        currYrMonthTv.text = "${myDataSet[10].year}.${myDataSet[10].month}"
+
+        viewAdapter.notifyDataSetChanged()
+    }
     fun generateRecyclerView(){
         val today = org.threeten.bp.LocalDateTime.now()
 
