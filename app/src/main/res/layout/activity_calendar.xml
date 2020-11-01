@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".workout_calendar.CalendarActivity"
+    tools:context=".MainActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal">
     <RelativeLayout
@@ -67,6 +67,21 @@
             app:spanCount="7"
             android:scrollbars="vertical"
             android:id="@+id/calendarRecyclerView"/>
+
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:padding="12dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:spanCount="7"
+            android:scrollbars="vertical"
+            android:id="@+id/workoutListRecyclerView"/>
 
     </ScrollView>
 
