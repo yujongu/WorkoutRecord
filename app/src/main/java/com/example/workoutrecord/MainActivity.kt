@@ -7,11 +7,14 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workoutrecord.components.OnSwipeTouchListener
 import com.example.workoutrecord.workout_calendar.CalendarAdapter
 import com.example.workoutrecord.workout_calendar.GenerateCalendar
 import com.example.workoutrecord.workout_calendar.MyDate
+import com.example.workoutrecord.workout_info.MuscleGroup
+import com.example.workoutrecord.workout_list.WorkoutListAdapter
 import com.jakewharton.threetenabp.AndroidThreeTen
 import java.lang.IllegalStateException
 
@@ -23,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     var myCalendarList: List<MyDate> = listOf()
 
     private lateinit var workListRecyclerView: RecyclerView
-    private lateinit var workListViewAdapter: CalendarAdapter
+    private lateinit var workListViewAdapter: RecyclerView.Adapter<*>
     private lateinit var workListViewManager: RecyclerView.LayoutManager
 
     private lateinit var prevMonthButton: ImageButton
@@ -146,7 +149,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun generateWorkoutListRecyclerView() {
+        for (dates in myCalendarList){
+            if (dates.clicked == 1){
+
+                workListViewManager = LinearLayoutManager(this)
+                workListViewAdapter = WorkoutListAdapter(dates.workoutList)
+                workListRecyclerView = findViewById<RecyclerView>(R.id.workoutListRecyclerView).apply {
+                    // use this setting to improve performance if you know that changes
+                    // in content do not change the layout size of the RecyclerView
+                    setHasFixedSize(true)
+
+                    // use a linear layout manager
+                    layoutManager = workListViewManager
+
+                    // specify an viewAdapter (see also next example)
+                    adapter = workListViewAdapter
+
+                }
+            }
+        }
 
     }
 
