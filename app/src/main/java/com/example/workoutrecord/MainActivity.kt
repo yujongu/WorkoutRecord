@@ -1,9 +1,11 @@
 package com.example.workoutrecord
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nextMonthButton: ImageButton
     private lateinit var currYrMonthTv: TextView
     private lateinit var todayTv: TextView
+    private lateinit var addWorkout: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +48,14 @@ class MainActivity : AppCompatActivity() {
     fun initInstances() {
         AndroidThreeTen.init(this);
 
-        prevMonthButton = findViewById<ImageButton>(R.id.btnPrevMonth)
-        nextMonthButton = findViewById<ImageButton>(R.id.btnNextMonth)
-        currYrMonthTv = findViewById<TextView>(R.id.tvCurrYrMonth)
-        todayTv = findViewById<TextView>(R.id.tvGetToday)
+        prevMonthButton = findViewById(R.id.btnPrevMonth)
+        nextMonthButton = findViewById(R.id.btnNextMonth)
+        currYrMonthTv = findViewById(R.id.tvCurrYrMonth)
+        todayTv = findViewById(R.id.tvGetToday)
+        addWorkout = findViewById(R.id.addWorkoutBtn)
 
         generateCalendarRecyclerView()
+//        generateWorkoutListRecyclerView()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -59,11 +64,13 @@ class MainActivity : AppCompatActivity() {
         nextMonthButton.setOnClickListener(onClickListener)
         todayTv.setOnClickListener(onClickListener)
 
+        addWorkout.setOnClickListener(onClickListener)
+
+        //swipe screen for prev or next month.
         calRecyclerView.setOnTouchListener(object : OnSwipeTouchListener() {
             override fun onSwipeLeft() {
                 gotoNextMonth()
             }
-
             override fun onSwipeRight() {
                 gotoPrevMonth()
             }
@@ -80,6 +87,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.tvGetToday -> {
                 gotoToday()
+            }
+            R.id.addWorkoutBtn -> {
+                redirectToChooseWorkout()
             }
             else -> throw IllegalStateException("Not sure what you clicked...")
 
@@ -149,28 +159,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun generateWorkoutListRecyclerView() {
-        for (dates in myCalendarList){
-            if (dates.clicked == 1){
-
-                workListViewManager = LinearLayoutManager(this)
-                workListViewAdapter = WorkoutListAdapter(dates.workoutList)
-                workListRecyclerView = findViewById<RecyclerView>(R.id.workoutListRecyclerView).apply {
-                    // use this setting to improve performance if you know that changes
-                    // in content do not change the layout size of the RecyclerView
-                    setHasFixedSize(true)
-
-                    // use a linear layout manager
-                    layoutManager = workListViewManager
-
-                    // specify an viewAdapter (see also next example)
-                    adapter = workListViewAdapter
-
-                }
-            }
-        }
-
+    private fun redirectToChooseWorkout(){
+        val intent = Intent(this@MainActivity, ChooseWorkoutActivity::class.java )
+        startActivity(intent)
     }
 
 

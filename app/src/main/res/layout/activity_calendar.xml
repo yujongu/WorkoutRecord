@@ -70,23 +70,37 @@
 
     </ScrollView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="운동"
+        android:textSize="26sp"
+        android:layout_margin="16dp"
+        />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="vertical"
         android:padding="12dp">
-
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:spanCount="7"
             android:scrollbars="vertical"
             android:id="@+id/workoutListRecyclerView"/>
-
     </ScrollView>
 
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addWorkoutBtn"
+        android:text="+ 운동 추가"
+        android:textColor="#f5f6fa"
+        android:background="@drawable/btn_grey_roundedge_background"
+        android:padding="16dp"
+        android:layout_margin="16dp"/>
 
 
 
