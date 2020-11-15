@@ -1,12 +1,14 @@
 package com.example.workoutrecord.workout_list
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workoutrecord.R
 import com.example.workoutrecord.workout_calendar.CalendarAdapter
@@ -61,13 +63,18 @@ class WorkoutListAdapter(private val list: MutableList<Workout>) :
 
 
         llContainer.setOnClickListener(View.OnClickListener {
-            clickedPos = position
+            if (clickedPos == position){
+                clickedPos = -1;
+            } else {
+                clickedPos = position
+            }
             notifyDataSetChanged()
         })
 
         if (clickedPos >= 0 && clickedPos == position) {
             addWorkoutBtn.visibility = View.VISIBLE
             workoutName.setTextColor(Color.parseColor(SKYBLUE))
+
         } else {
             addWorkoutBtn.visibility = View.GONE
             workoutName.setTextColor(Color.parseColor(BLUENIGHT))
